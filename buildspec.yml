@@ -1,0 +1,22 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      nodejs: 12.x
+    commands:
+      # - echo "Installing dependencies..."
+      # - pip install -r requirements.txt -t lib
+  build:
+    commands:
+      - echo "Zipping deployment package..."
+      # - cd lib
+      # - zip -r9 ../deplyment_package.zip .
+      # - cd ..
+      # - cd src
+      - zip -R deplyment_package.zip "*.js"
+      - cd ..
+  post_build:
+    commands:
+      - echo "Updating lambda Function..."
+      - aws lambda update-function-code --function-name test-ctp-github-to-lambda-njs --zip-file fileb://deplyment_package.zip
+      - echo "Done!"
