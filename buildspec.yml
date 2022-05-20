@@ -14,7 +14,7 @@ phases:
       # - cd ..
       # - cd src
       - zip -R deplyment_package.zip "*.js"
-      - cd ..
+      # - cd ..
   post_build:
     commands:
       - echo "Updating lambda Function..."
