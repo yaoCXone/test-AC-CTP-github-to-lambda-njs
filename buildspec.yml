@@ -13,7 +13,7 @@ phases:
       # - zip -r9 ../deplyment_package.zip .
       # - cd ..
       - cd src
-      - zip -R deplyment_package.zip "*.js"
+      - zip -R ../deplyment_package.zip "*.js"
       - cd ..
   post_build:
     commands:
