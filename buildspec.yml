@@ -4,11 +4,12 @@ phases:
     runtime-versions:
       nodejs: 12.x
     commands:
-      # - echo "Installing dependencies..."
-      # - pip install -r requirements.txt -t lib
+      - echo "Installing dependencies..."
+      - npm install JSONStream
   build:
     commands:
       - echo "Zipping deployment package..."
+      - npm install
       # - cd lib
       # - zip -r9 ../deplyment_package.zip .
       # - cd ..
