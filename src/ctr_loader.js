@@ -15,11 +15,11 @@ class s3_ctr_loader{
     }
     processS3File(){        
         try {
-            let readStream = createReadStream(config);//S3.getObject(s3Config).createReadStream();
-            return parseJsonReadStream(readStream);
+            let readStream = this.createReadStream(this.s3Config);//S3.getObject(s3Config).createReadStream();
+            return this.parseJsonReadStream(readStream);
         } catch (err) {
             console.log(err);
-            const message = `Error getting object ${key} from bucket ${bucket}. Make sure they exist and your bucket is in the same region as this function.`;
+            const message = `Error getting object ${this.s3Config.Key} from bucket ${this.s3Config.Bucket}. Make sure they exist and your bucket is in the same region as this function.`;
             console.log(message);
             throw new Error(message);
         }
@@ -32,7 +32,7 @@ class s3_ctr_loader{
 
     createReadStream(config){
         if(config==null){
-            return S3.getObject(s3Config).createReadStream();
+            return S3.getObject(this.s3Config).createReadStream();
         }
         else{
             if(config['path']!=null){
