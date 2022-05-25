@@ -19,7 +19,3 @@ phases:
       - echo "Updating lambda Function..."
       - aws lambda update-function-code --function-name test-ctp-github-to-lambda-njs --zip-file fileb://deplyment_package.zip
       - echo "Done!"
-  artifacts:
-    files:
-      - package.json
-      - src/*.js
