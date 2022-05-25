@@ -6,13 +6,11 @@ phases:
     commands:
       - echo "Installing dependencies..."
       - npm install
-      - npm install JSONStream
   build:
     commands:
-      - echo "Zipping deployment package..."      
-      - cd node_modules
-      - zip -r9 ../deplyment_package.zip JSONStream
-      - cd ..
+      - echo "Zipping deployment package..."
+      # - zip -r9 deplyment_package.zip node_modules
+      # - cd ..
       - cd src
       - zip -R ../deplyment_package.zip "*.js"
       - cd ..
@@ -25,4 +23,3 @@ phases:
     files:
       - package.json
       - src/*.js
-      - node_modules/JSONStream/*

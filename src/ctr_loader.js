@@ -1,9 +1,5 @@
-
-const { S3 } = require('aws-sdk');
 const aws = require('aws-sdk');
-
 const s3 = new aws.S3({ apiVersion: '2006-03-01' });
-const jsonStream = require('JSONStream');
 var fs = require('fs')
 
 class s3_ctr_loader{
@@ -15,7 +11,7 @@ class s3_ctr_loader{
     }
     processS3File(){        
         try {
-            let readStream = this.createReadStream(this.s3Config);//S3.getObject(s3Config).createReadStream();
+            let readStream = this.createReadStream(this.s3Config);
             return this.parseJsonReadStream(readStream);
         } catch (err) {
             console.log(err);
@@ -25,18 +21,17 @@ class s3_ctr_loader{
         }
     }
 
-    parseJsonReadStream(rs){
-        var parser = jsonStream.parse('*');
-        return rs.pipe(parser);
+    parseJsonReadStream(data){
+        return JSON.parse(data.Body.toString('utf-8'));
     }
 
     createReadStream(config){
         if(config==null){
-            return S3.getObject(this.s3Config).createReadStream();
+            return s3.getObject(this.s3Config).promise();
         }
         else{
             if(config['path']!=null){
-                return fs.createReadStream(config['path'], { encoding: 'utf8' });
+                return {Body:fs.readFileSync(config['path'])};
             }
         }
     }
