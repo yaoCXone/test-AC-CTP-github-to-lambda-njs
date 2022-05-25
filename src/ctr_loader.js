@@ -22,6 +22,8 @@ class s3_ctr_loader{
     }
 
     parseJsonReadStream(data){
+        if(data.Body==='undefined')
+            return null;
         return JSON.parse(data.Body.toString('utf-8'));
     }
 
