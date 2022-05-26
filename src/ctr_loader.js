@@ -33,7 +33,7 @@ class s3_ctr_loader{
             return {Body:fs.readFileSync(config['path'])};
         }
         else{
-            const { ContentType, Body } = await s3.getObject(params).promise();
+            const { ContentType, Body } = await s3.getObject(config).promise();
             return { ContentType, Body };
         }
     }
