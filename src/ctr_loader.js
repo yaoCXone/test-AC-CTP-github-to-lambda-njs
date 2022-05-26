@@ -9,10 +9,14 @@ class s3_ctr_loader{
             Key: key,
         };
     }
-    processS3File(){        
+    async processS3File(){        
         try {
-            let data = this.readData(this.s3Config);
-            return this.parseJsonReadStream(data);
+            const { ContentType, Body } = await this.readData(this.s3Config);//s3.getObject(this.s3Config).promise(); //
+            // console.log(`ContentType:${ContentType}`);
+            // console.log(`Body:${Body}`);
+            // let data = Body.toString('utf-8');
+            // console.log(data);
+            return this.parseJsonReadStream(Body);
         } catch (err) {
             console.log(err);
             const message = `Error getting object ${this.s3Config.Key} from bucket ${this.s3Config.Bucket}. Make sure they exist and your bucket is in the same region as this function.`;
@@ -21,11 +25,17 @@ class s3_ctr_loader{
         }
     }
 
-    parseJsonReadStream(data){
-        if(data.Body==='undefined')
-            return null;
-        console.log(data);
-        return JSON.parse(data.Body.toString('utf-8'));
+    parseJsonReadStream(body){
+        try{
+            if(body==='undefined'){
+                return null;
+            }
+            // console.log(body);
+            return JSON.parse(body.toString('utf-8'));
+        }catch (err) {
+            console.log(err);
+            console.log(`Invalid Json file: ${this.s3Config.Key} from bucket ${this.s3Config.Bucket}.`);
+        }
     }
 
     async readData(config){            
@@ -33,8 +43,7 @@ class s3_ctr_loader{
             return {Body:fs.readFileSync(config['path'])};
         }
         else{
-            const { ContentType, Body } = await s3.getObject(config).promise();
-            return { ContentType, Body };
+            return await s3.getObject(config).promise();
         }
     }
 }

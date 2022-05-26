@@ -6,9 +6,8 @@ const aws = require('aws-sdk');
 
 const s3 = new aws.S3({ apiVersion: '2006-03-01' });
 
-
 exports.handler = async (event, context) => {
-    console.log('Received event:', JSON.stringify(event, null, 2));
+    //console.log('Received event:', JSON.stringify(event, null, 2));
     
     const region_code = process.env.AWS_REGION;
     console.log(`On region:${region_code}`);
@@ -19,13 +18,19 @@ exports.handler = async (event, context) => {
     console.log(message);
     try {
         console.log("The date and time are currently: " + dt.currentDateTime());
+
+        var params={
+            Bucket: bucket,
+            Key: key,
+        };
         var loader = new ctr_loader(bucket, key);
-        var ctr_json = loader.processS3File();
-        if(ctr_json!=undefined && ctr_json!=null){
-            console.log('Ctr event:', ContentType);
+        var data = await loader.processS3File();
+        console.log(`data:${data}`);
+        if(data===undefined || data===null){
+            console.log('Invalid Ctr event.');
         }
         else{
-            console.log(ctr_json);
+            console.log(data);
         }
         return 0;
     } catch (err) {
