@@ -28,15 +28,13 @@ class s3_ctr_loader{
         return JSON.parse(data.Body.toString('utf-8'));
     }
 
-    readData(config){            
+    async readData(config){            
         if(config['path']!=null){
             return {Body:fs.readFileSync(config['path'])};
         }
         else{
-            var fetchPromise = s3.getObject(this.s3Config).promise();
-            fetchPromise.then(response=>{
-                return response;
-            });
+            const { ContentType, Body } = await s3.getObject(params).promise();
+            return { ContentType, Body };
         }
     }
 }
