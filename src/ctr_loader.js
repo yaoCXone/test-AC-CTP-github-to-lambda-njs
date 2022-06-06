@@ -53,7 +53,7 @@ class s3_ctr_loader{
             Key: key,
         }
         try {
-            const getFileObjectFromS3 = s3.delete(params).promise();
+            const getFileObjectFromS3 = s3.deleteObject(params).promise();
             //return await Promise.resolve(getFileObjectFromS3);
             return Promise.resolve(getFileObjectFromS3).then(response => {
                 console.log('Successfully deleted AWS S3 file: ' + response.status);
@@ -63,7 +63,25 @@ class s3_ctr_loader{
                 });
         } catch (err) {
             console.error(err);
-            const message = `Error deleting s3 object ${this.key} from bucket ${this.bucket}. Make sure they exist and your bucket is in the same region as this function.`;
+            const message = `Error deleting s3 object ${key} from bucket ${bucket}. Make sure they exist and your bucket is in the same region as this function.`;
+            console.log(message);
+            throw new Error(message);
+        }
+    }
+    uploadJsonFile(bucket, key, data) {
+        const params = {
+            Bucket: bucket,
+            Key: key,
+            Body:JSON.stringify(data,null,2)
+        }
+        try {
+            s3.upload(params, function(err, d){
+                if (err) throw err;
+                console.log(`File uploaded successfully at ${d.Location}`)});//.promise();
+            //return await Promise.resolve(getFileObjectFromS3);
+        } catch (err) {
+            console.error(err);
+            const message = `Error uploading s3 object ${key} from bucket ${bucket}. Make sure they exist and your bucket is in the same region as this function.`;
             console.log(message);
             throw new Error(message);
         }

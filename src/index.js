@@ -31,6 +31,7 @@ exports.handler = async (event, context) => {
         }
         else{
             console.log(data);
+            loader.uploadJsonFile('failed-ctr-evts',key, data);
         }
         return 0;
     } catch (err) {
