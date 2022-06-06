@@ -10,6 +10,7 @@ phases:
     commands:
       - echo "Zipping deployment package..."
       - zip -r9 deplyment_package.zip node_modules
+      - zip -r9 deplyment_package.zip config
       - cd src
       - zip -R ../deplyment_package.zip "*.js"
       - cd ..
