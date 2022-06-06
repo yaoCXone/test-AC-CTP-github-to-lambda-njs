@@ -8,12 +8,12 @@ var ctrLoader = require("../src/ctr_loader").s3_ctr_loader;
 
 
 
-test('S3 bucket object loader - Load Json object - should load json object from json file',()=>{
+test('S3 bucket object loader - Load Json object - should load json object from json file',async ()=>{
     var config={path:'./test/ctr_evt_01.json'};
     var ctr_loader = new ctrLoader();
-    var rs = ctr_loader.createReadStream(config);
+    var rs = await ctr_loader.readData(config);
     expect(rs).to.not.null;
-    var ctr_json = ctr_loader.parseJsonReadStream(rs);
+    var ctr_json = ctr_loader.parseJsonReadStream(rs.Body);
     expect(ctr_json).to.not.null;
     var rec= ctr_json['Recording'];
     expect(rec).to.not.null;

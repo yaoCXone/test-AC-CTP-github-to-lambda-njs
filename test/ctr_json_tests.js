@@ -25,12 +25,13 @@ describe("CTR Json Object tests", function(){
 
 describe("S3 bucket object loader tests",function(){
     describe("Load Json object", function(){
-        it("should load json object from json file", function(){
+        it("should load json object from json file", async function(){
             var config={path:'./test/ctr_evt_01.json'};
             var ctr_loader = new ctrLoader();
-            var rs = ctr_loader.createReadStream(config);
-            expect(rs).to.not.null;
-            var ctr_json = ctr_loader.parseJsonReadStream(rs);
+            var data = await ctr_loader.readData(config);
+            expect(data).to.not.null;
+            // console.log(data.Body);
+            var ctr_json = ctr_loader.parseJsonReadStream(data.Body);
             expect(ctr_json).to.not.null;
             var rec= ctr_json['Recording'];
             expect(rec).to.not.null;

@@ -38,7 +38,7 @@ class s3_ctr_loader{
         }
     }
 
-    async readData(config){            
+    async readData(config){
         if(config['path']!=null){
             return {Body:fs.readFileSync(config['path'])};
         }
