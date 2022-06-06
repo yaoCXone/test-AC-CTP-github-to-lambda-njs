@@ -46,6 +46,28 @@ class s3_ctr_loader{
             return await s3.getObject(config).promise();
         }
     }
+
+    async deleteS3File(bucket, key) {
+        const params = {
+            Bucket: bucket,
+            Key: key,
+        }
+        try {
+            const getFileObjectFromS3 = s3.delete(params).promise();
+            //return await Promise.resolve(getFileObjectFromS3);
+            return Promise.resolve(getFileObjectFromS3).then(response => {
+                console.log('Successfully deleted AWS S3 file: ' + response.status);
+            })
+                .catch(response => {
+                    console.log('Failed to delete AWS S3 file:' + response.status);
+                });
+        } catch (err) {
+            console.error(err);
+            const message = `Error deleting s3 object ${this.key} from bucket ${this.bucket}. Make sure they exist and your bucket is in the same region as this function.`;
+            console.log(message);
+            throw new Error(message);
+        }
+    }
 }
 
 module.exports = {
