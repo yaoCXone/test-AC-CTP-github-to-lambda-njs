@@ -8,7 +8,7 @@ const s3 = new aws.S3({ apiVersion: '2006-03-01' });
 
 exports.handler = async (event, context) => {
     //console.log('Received event:', JSON.stringify(event, null, 2));
-    
+    console.log(`NODE_EVN:${process.env.NODE_EVN}`);
     const region_code = process.env.AWS_REGION;
     console.log(`On region:${region_code}`);
     // Get the object from the event and show its content type
