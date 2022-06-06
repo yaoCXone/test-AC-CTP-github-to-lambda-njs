@@ -3,7 +3,7 @@ console.log('Loading function');
 var dt = require('./testmodule');
 var ctr_loader = require('./ctr_loader').s3_ctr_loader;
 const aws = require('aws-sdk');
-
+const config = require('config');
 const s3 = new aws.S3({ apiVersion: '2006-03-01' });
 
 exports.handler = async (event, context) => {
