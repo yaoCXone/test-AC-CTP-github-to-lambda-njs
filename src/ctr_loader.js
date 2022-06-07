@@ -75,10 +75,9 @@ class s3_ctr_loader{
             Body:JSON.stringify(data,null,2)
         }
         try {
-            s3.upload(params, function(err, d){
-                if (err) throw err;
-                console.log(`File uploaded successfully at ${d.Location}`)});//.promise();
-            //return await Promise.resolve(getFileObjectFromS3);
+            console.log(`Start uploading file:(${key}) to bucket: ${bucket}`);
+            await s3.putObject(params).promise();
+            console.log(`File (${key}) uploaded successfully to bucket: ${bucket}`);
         } catch (err) {
             console.error(err);
             const message = `Error uploading s3 object ${key} from bucket ${bucket}. Make sure they exist and your bucket is in the same region as this function.`;
